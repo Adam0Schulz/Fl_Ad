@@ -11,7 +11,7 @@ canvas.height = 600;
 let gameStarted = false;
 let gameOver = false;
 let score = 0;
-const winningScore = 20; // Score needed to win the game
+const winningScore = 10; // Score needed to win the game
 const snowParticles = Array(30).fill().map(() => ({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
