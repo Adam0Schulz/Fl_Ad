@@ -196,19 +196,40 @@ function drawGameOver() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.75)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
+    // Center everything
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    
+    // Game Over text
     ctx.fillStyle = 'white';
     ctx.font = '48px Arial';
-    ctx.fillText('Game Over!', canvas.width/2 - 100, canvas.height/2 - 50);
+    ctx.textAlign = 'center';
+    ctx.fillText('Game Over!', centerX, centerY - 50);
     
+    // Score text
     ctx.font = '24px Arial';
-    ctx.fillText(`Score: ${score}`, canvas.width/2 - 50, canvas.height/2 + 50);
+    ctx.fillText(`Score: ${score}`, centerX, centerY + 10);
+    
+    // Retry button
+    const buttonWidth = 120;
+    const buttonHeight = 40;
+    const buttonX = centerX - buttonWidth / 2;
+    const buttonY = centerY + 40;
     
     ctx.fillStyle = '#c41e3a';
-    ctx.fillRect(canvas.width/2 - 60, canvas.height/2 + 70, 120, 40);
+    ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
     
     ctx.fillStyle = 'white';
     ctx.font = '20px Arial';
-    ctx.fillText('Retry', canvas.width/2 - 25, canvas.height/2 + 95);
+    ctx.fillText('Retry', centerX, buttonY + 25);
+    
+    // Store button coordinates for click detection
+    window.retryButton = {
+        x: buttonX,
+        y: buttonY,
+        width: buttonWidth,
+        height: buttonHeight
+    };
 }
 
 function startGame() {
@@ -288,12 +309,43 @@ startButton.addEventListener('click', startGame);
 canvas.addEventListener('click', (e) => {
     if (gameOver) {
         const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
         
-        // Check if click is within retry button area
-        if (x > canvas.width/2 - 60 && x < canvas.width/2 + 60 &&
-            y > canvas.height/2 + 70 && y < canvas.height/2 + 110) {
+        const clickX = (e.clientX - rect.left) * scaleX;
+        const clickY = (e.clientY - rect.top) * scaleY;
+        
+        const button = window.retryButton;
+        
+        if (button && 
+            clickX >= button.x && 
+            clickX <= button.x + button.width && 
+            clickY >= button.y && 
+            clickY <= button.y + button.height) {
+            startGame();
+        }
+    }
+});
+
+// Also handle touch events for retry
+canvas.addEventListener('touchstart', (e) => {
+    if (gameOver) {
+        e.preventDefault();
+        const rect = canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        
+        const clickX = (touch.clientX - rect.left) * scaleX;
+        const clickY = (touch.clientY - rect.top) * scaleY;
+        
+        const button = window.retryButton;
+        
+        if (button && 
+            clickX >= button.x && 
+            clickX <= button.x + button.width && 
+            clickY >= button.y && 
+            clickY <= button.y + button.height) {
             startGame();
         }
     }
