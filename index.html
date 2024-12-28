@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas Flappy Adam</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #1a472a;
+            touch-action: none;
+        }
+        canvas {
+            border: 2px solid white;
+            max-width: 100%;
+            max-height: 100vh;
+            touch-action: none;
+        }
+        #gameContainer {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+        #startScreen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            z-index: 1;
+        }
+        #startButton {
+            padding: 10px 20px;
+            font-size: 18px;
+            background: #c41e3a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .subtitle {
+            font-size: 24px;
+            margin-top: 10px;
+            color: #cccccc;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        <div id="startScreen">
+            <h1>Christmas Flappy Adam</h1>
+            <div class="subtitle">Let's see if you deserve my gift</div>
+            <button id="startButton">Start Game</button>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
